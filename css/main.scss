@@ -1,0 +1,38 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+form {
+  padding: 35px 45px 40px 45px;
+  width: 480px;
+  .left-aligned-row {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    * {
+      margin: 5px;
+    }
+    button {
+      width: 12rem;
+      color: black;
+      background-color: white;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      &:active {
+        background-color: lightgray;
+      }
+    }
+  }
+  border: 1px lightgray solid;
+  border-radius: 5px;
+}
+
+.form-holder {
+  display: grid;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
