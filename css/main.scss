@@ -6,28 +6,13 @@ html {
 }
 
 form {
-  padding: 35px 45px 40px 45px;
-  width: 480px;
-  .left-aligned-row {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    * {
-      margin: 5px;
-    }
-    button {
-      width: 12rem;
-      color: black;
-      background-color: white;
-      padding-top: 4px;
-      padding-bottom: 4px;
-      &:active {
-        background-color: lightgray;
-      }
-    }
-  }
+  padding: 90px 100px 90px 100px;
+  width: 520px;
   border: 1px lightgray solid;
   border-radius: 5px;
+  legend {
+    margin-bottom: 45px;
+  }
 }
 
 .form-holder {
