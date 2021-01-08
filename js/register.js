@@ -2,16 +2,25 @@ function loaded() {
   $("form").on("submit", (e) => {
     e.preventDefault();
     const data = {
-      username: $("#username").val(),
+      nickname: $("#username").val(),
       password: $("#password").val(),
     };
-    fetch((url = `${getGlobals().baseUrl}/v1/auth/register`), {
+
+    const url = `${getGlobals().baseUrl}/auth/register`;
+
+    $.ajax({
+      url: url,
+      data: JSON.stringify(data),
       method: "POST",
-      body: JSON.stringify(data),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+      .done((data) => {
+        window.localStorage.setItem("token", data.token);
+        window.location.replace(`/index.html`);
+      })
+      .fail((res) =>
+        alert(res.responseJSON ? res.responseJSON.message : "Unknown error")
+      );
   });
 }
