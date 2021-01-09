@@ -1,4 +1,5 @@
 function listHolderLoaded() {
+  console.log("I'm here");
   $("#list-maker").on("submit", (event) => {
     event.preventDefault();
     const data = $("#list-name-input").val();
