@@ -5,7 +5,7 @@ html {
   height: 100%;
 }
 
-form {
+#auth-form {
   padding: 90px 100px 90px 100px;
   width: 520px;
   border: 1px lightgray solid;
@@ -23,4 +23,22 @@ form {
   height: 100%;
   align-items: center;
   justify-content: center;
+}
+
+.list-holder {
+  padding: 15px 10px 25px 25px;
+  width: 540px;
+  #list-maker {
+    display: grid;
+    grid-template-columns: 85% 15%;
+    align-items: center;
+    .form-control {
+      display: inline;
+      width: 95%;
+      color: black;
+    }
+    button {
+      display: inline;
+    }
+  }
 }
