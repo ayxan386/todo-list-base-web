@@ -1,5 +1,4 @@
 function listHolderLoaded() {
-  console.log("I'm here");
   $("#list-maker").on("submit", (event) => {
     event.preventDefault();
     const data = $("#list-name-input").val();
@@ -10,9 +9,18 @@ function listHolderLoaded() {
       url,
       method: "POST",
       beforeSend: (xhr) => xhr.setRequestHeader("Authorization", authHeader),
-    }).done((data) => console.log(data));
-    $("#list-maker").trigger("reset");
+    }).done((data) => {
+      addToLists(data.data);
+      $("#list-maker").trigger("reset");
+    });
   });
 }
 
-function addToLists(listData) {}
+function addToLists(listData) {
+  const newItemList = formItemList(listData.name, listData.id);
+  $("#item-lists").append(newItemList);
+}
+
+function formItemList(name, id) {
+  return `<div id='${id}' class='item-list'>${name}</div>`;
+}
