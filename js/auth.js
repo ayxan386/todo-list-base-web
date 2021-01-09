@@ -6,7 +6,8 @@ function loaded() {
       password: $("#password").val(),
     };
 
-    const url = `${getGlobals().baseUrl}/auth/register`;
+    const name = $("form").attr("name");
+    const url = `${getGlobals().baseUrl}/auth/${name}`;
 
     $.ajax({
       url: url,

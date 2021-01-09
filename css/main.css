@@ -12,8 +12,12 @@ form {
   border-radius: 5px;
 }
 
-form legend {
+form h2 {
   margin-bottom: 45px;
+}
+
+form .small-text-holder {
+  margin-top: 15px;
 }
 
 .form-holder {
