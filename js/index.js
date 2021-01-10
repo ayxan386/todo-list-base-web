@@ -22,5 +22,46 @@ function addToLists(listData) {
 }
 
 function formItemList(name, id) {
-  return `<div id='${id}' class='item-list'>${name}</div>`;
+  const str = `
+<div class="item-list" id="item-list-${id}">
+          <div class="row">
+            <h3 class="item-list-title">${name}</h3>
+            <div>
+              <span class="btn-open" id="btn-open-${id}">
+                <button class="btn btn-open" onclick="openNav('${id}')">
+                  <i class="fas fa-chevron-down"></i>
+                </button>
+              </span>
+              <span id="btn-closed-${id}" class="btn-closed">
+                <button onclick="closeNav('${id}')" class="btn btn-closed">
+                  <i class="fas fa-chevron-up"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div id="list-${id}" class="sidenav">
+            <div
+              class="list-item list-group-item d-flex justify-content-between align-items-center"
+            >
+              Hello there
+            </div>
+          </div>
+        </div>
+`;
+  return str;
+}
+
+function openNav(id) {
+  console.log(id);
+  document.getElementById(`list-${id}`).style.width = "100%";
+  document.getElementById(`list-${id}`).style.height = "100%";
+  document.getElementById(`btn-open-${id}`).style.display = "none";
+  document.getElementById(`btn-closed-${id}`).style.display = "inline-block";
+}
+
+function closeNav(id) {
+  document.getElementById(`list-${id}`).style.width = "0";
+  document.getElementById(`list-${id}`).style.height = "0";
+  document.getElementById(`btn-open-${id}`).style.display = "inline-block";
+  document.getElementById(`btn-closed-${id}`).style.display = "none";
 }
