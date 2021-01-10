@@ -9,7 +9,37 @@
   </head>
   <body onload="listHolderLoaded()">
     <div class="list-holder">
-      <div id="item-lists"></div>
+      <div id="item-lists">
+        <div class="item-list" id="item-list-1">
+          <div class="row">
+            <h3 class="item-list-title">Title</h3>
+            <div>
+              <span class="btn-open" id="btn-open-1">
+                <button class="btn btn-open" onclick="openNav(1)">
+                  <i class="fas fa-chevron-down"></i>
+                </button>
+              </span>
+              <span id="btn-closed-1" class="btn-closed">
+                <button onclick="closeNav(1)" class="btn btn-closed">
+                  <i class="fas fa-chevron-up"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div id="list-1" class="sidenav">
+            <div
+              class="list-item list-group-item d-flex justify-content-between align-items-center"
+            >
+              Hello there
+            </div>
+            <div
+              class="list-item list-group-item d-flex justify-content-between align-items-center"
+            >
+              Hello there
+            </div>
+          </div>
+        </div>
+      </div>
       <form name="list-maker" id="list-maker">
         <input
           name="list-name"

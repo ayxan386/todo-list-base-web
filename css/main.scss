@@ -41,4 +41,47 @@ html {
       display: inline;
     }
   }
+  .item-list {
+    .row {
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+      justify-content: space-between;
+      padding: 7px;
+    }
+    .item-list-title {
+      font-size: 30px;
+      margin: 8px;
+    }
+  }
+}
+
+.btn-closed {
+  display: none;
+}
+
+/* The side navigation menu */
+.sidenav {
+  height: 0; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  overflow-y: auto;
+  padding-top: 20px; /* Place content 60px from the top */
+  padding-bottom: 20px;
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  .list-item {
+    font-size: 24px;
+  }
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
 }
