@@ -1,4 +1,37 @@
 function listHolderLoaded() {
+  checkForToken();
+  addListenerToForm();
+  loadAllLists();
+}
+
+function checkForToken() {
+  if (window.localStorage.getItem("token") === null) {
+    window.location.replace("login.html");
+  }
+}
+
+function loadAllLists() {
+  const prevLists = JSON.parse(window.localStorage.getItem("lists"));
+  if (prevLists !== null) {
+    prevLists.forEach((list) => addToLists(list));
+  }
+  const token = window.localStorage.getItem("token");
+  const authHeader = `Bearer ${token}`;
+  const url = `${getGlobals().baseUrl}/item-list/mine`;
+  $.ajax({
+    url,
+    method: "GET",
+    beforeSend: (xhr) => xhr.setRequestHeader("Authorization", authHeader),
+  }).done((res) => {
+    const lists = res.data;
+    window.localStorage.setItem("lists", JSON.stringify(lists));
+    lists
+      .filter((list) => prevLists.filter((l) => l.id === list.id).length === 0)
+      .forEach((list) => addToLists(list));
+  });
+}
+
+function addListenerToForm() {
   $("#list-maker").on("submit", (event) => {
     event.preventDefault();
     const data = $("#list-name-input").val();
