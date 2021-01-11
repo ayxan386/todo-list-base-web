@@ -38,6 +38,7 @@ html {
 }
 
 .list-holder #list-maker {
+  margin-top: 15px;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 85% 15%;
