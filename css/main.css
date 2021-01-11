@@ -140,8 +140,8 @@ html {
   /* Place content 60px from the top */
   padding-bottom: 20px;
   margin-left: 12px;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
   /* 0.5 second transition effect to slide in the sidenav */
 }
 

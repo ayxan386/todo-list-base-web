@@ -97,6 +97,7 @@ function formItemList(listData) {
 function openNav(id) {
   document.getElementById(`list-${id}`).style.width = "97%";
   document.getElementById(`list-${id}`).style.height = "100%";
+  document.getElementById(`item-list-${id}`).style.height = "420px";
   document.getElementById(`btn-open-${id}`).style.display = "none";
   document.getElementById(`btn-closed-${id}`).style.display = "inline-block";
 }
@@ -104,6 +105,7 @@ function openNav(id) {
 function closeNav(id) {
   document.getElementById(`list-${id}`).style.width = "0";
   document.getElementById(`list-${id}`).style.height = "0";
+  document.getElementById(`item-list-${id}`).style.height = "90px";
   document.getElementById(`btn-open-${id}`).style.display = "inline-block";
   document.getElementById(`btn-closed-${id}`).style.display = "none";
 }
