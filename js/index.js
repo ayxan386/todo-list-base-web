@@ -109,10 +109,16 @@ function closeNav(id) {
 }
 
 function addItems(items) {
-  const template = `  <div
-              class="list-item list-group-item d-flex justify-content-between align-items-center"
-            >
-              Hello there
+  let str = "";
+  if (items.length > 0) {
+    items.forEach((item) => {
+      str += `  <div
+              class="list-item list-group-item d-flex justify-content-between align-items-center">
+              ${item.title}
             </div>`;
-  return template;
+    });
+  } else {
+    str = "List is empty";
+  }
+  return str;
 }
