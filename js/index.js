@@ -57,7 +57,7 @@ function addToLists(listData) {
 function formItemList(name, id) {
   const str = `
 <div class="item-list" id="item-list-${id}">
-          <div class="row">
+          <div class="item-row">
             <h3 class="item-list-title">${name}</h3>
             <div>
               <span class="btn-open" id="btn-open-${id}">
@@ -73,11 +73,6 @@ function formItemList(name, id) {
             </div>
           </div>
           <div id="list-${id}" class="sidenav">
-            <div
-              class="list-item list-group-item d-flex justify-content-between align-items-center"
-            >
-              Hello there
-            </div>
           </div>
         </div>
 `;
@@ -86,7 +81,7 @@ function formItemList(name, id) {
 
 function openNav(id) {
   console.log(id);
-  document.getElementById(`list-${id}`).style.width = "100%";
+  document.getElementById(`list-${id}`).style.width = "97%";
   document.getElementById(`list-${id}`).style.height = "100%";
   document.getElementById(`btn-open-${id}`).style.display = "none";
   document.getElementById(`btn-closed-${id}`).style.display = "inline-block";

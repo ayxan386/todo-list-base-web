@@ -26,8 +26,8 @@ html {
 }
 
 .list-holder {
-  padding: 15px 10px 25px 25px;
-  width: 540px;
+  padding: 15px 0px 25px 0px;
+  width: 780px;
   #list-maker {
     display: grid;
     grid-template-columns: 85% 15%;
@@ -42,17 +42,34 @@ html {
     }
   }
   .item-list {
-    .row {
+    margin: 1px;
+    .item-row {
+      display: flex;
+      flex-wrap: wrap;
       border: 1px solid lightgrey;
       border-radius: 5px;
       justify-content: space-between;
-      padding: 7px;
+      padding: 3px;
     }
     .item-list-title {
       font-size: 30px;
       margin: 8px;
     }
   }
+}
+
+#item-lists {
+  height: 480px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.center-whole {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-closed {
@@ -70,6 +87,7 @@ html {
   overflow-y: auto;
   padding-top: 20px; /* Place content 60px from the top */
   padding-bottom: 20px;
+  margin-left: 12px;
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
   .list-item {
     font-size: 24px;
