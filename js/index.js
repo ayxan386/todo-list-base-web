@@ -80,7 +80,6 @@ function formItemList(name, id) {
 }
 
 function openNav(id) {
-  console.log(id);
   document.getElementById(`list-${id}`).style.width = "97%";
   document.getElementById(`list-${id}`).style.height = "100%";
   document.getElementById(`btn-open-${id}`).style.display = "none";
