@@ -44,21 +44,33 @@ html {
   }
   .item-list {
     margin: 1px;
+    padding-top: 20px;
+    height: 90px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+
     .item-row {
       display: flex;
-      border: 1px solid lightgrey;
-      border-radius: 5px;
       justify-content: space-between;
+      align-content: center;
       padding: 3px;
     }
     .item-list-title {
       font-size: 30px;
-      margin: 8px;
+      margin: 3px;
+    }
+    .list-item {
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      border-radius: 3px;
     }
   }
 }
 
 .item-adder {
+  border: none;
   .form-control {
     width: 90%;
   }

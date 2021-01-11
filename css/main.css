@@ -60,23 +60,39 @@ html {
 
 .list-holder .item-list {
   margin: 1px;
+  padding-top: 20px;
+  height: 90px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
 }
 
 .list-holder .item-list .item-row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -ms-flex-line-pack: center;
+      align-content: center;
   padding: 3px;
 }
 
 .list-holder .item-list .item-list-title {
   font-size: 30px;
-  margin: 8px;
+  margin: 3px;
+}
+
+.list-holder .item-list .list-item {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-radius: 3px;
+}
+
+.item-adder {
+  border: none;
 }
 
 .item-adder .form-control {
