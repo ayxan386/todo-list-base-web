@@ -50,11 +50,12 @@ function addListenerToForm() {
 }
 
 function addToLists(listData) {
-  const newItemList = formItemList(listData.name, listData.id);
+  const newItemList = formItemList(listData);
   $("#item-lists").append(newItemList);
 }
 
-function formItemList(name, id) {
+function formItemList(listData) {
+  const { name, id, items } = listData;
   const str = `
 <div class="item-list" id="item-list-${id}">
           <div class="item-row">
@@ -73,6 +74,20 @@ function formItemList(name, id) {
             </div>
           </div>
           <div id="list-${id}" class="sidenav">
+          ${addItems(items)}
+            <form id="item-adder-${id}" class="item-adder">
+                <div class="item-row">
+                  <input
+                    name="item-name-${id}"
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter new item"
+                  />
+                  <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </form>
           </div>
         </div>
 `;
@@ -91,4 +106,13 @@ function closeNav(id) {
   document.getElementById(`list-${id}`).style.height = "0";
   document.getElementById(`btn-open-${id}`).style.display = "inline-block";
   document.getElementById(`btn-closed-${id}`).style.display = "none";
+}
+
+function addItems(items) {
+  const template = `  <div
+              class="list-item list-group-item d-flex justify-content-between align-items-center"
+            >
+              Hello there
+            </div>`;
+  return template;
 }

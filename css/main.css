@@ -66,8 +66,6 @@ html {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
   border: 1px solid lightgrey;
   border-radius: 5px;
   -webkit-box-pack: justify;
@@ -79,6 +77,10 @@ html {
 .list-holder .item-list .item-list-title {
   font-size: 30px;
   margin: 8px;
+}
+
+.item-adder .form-control {
+  width: 90%;
 }
 
 #item-lists {

@@ -46,7 +46,6 @@ html {
     margin: 1px;
     .item-row {
       display: flex;
-      flex-wrap: wrap;
       border: 1px solid lightgrey;
       border-radius: 5px;
       justify-content: space-between;
@@ -56,6 +55,12 @@ html {
       font-size: 30px;
       margin: 8px;
     }
+  }
+}
+
+.item-adder {
+  .form-control {
+    width: 90%;
   }
 }
 
