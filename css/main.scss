@@ -26,9 +26,10 @@ html {
 }
 
 .list-holder {
-  padding: 15px 10px 25px 25px;
-  width: 540px;
+  padding: 15px 0px 25px 0px;
+  width: 780px;
   #list-maker {
+    margin-top: 15px;
     display: grid;
     grid-template-columns: 85% 15%;
     align-items: center;
@@ -42,17 +43,51 @@ html {
     }
   }
   .item-list {
-    .row {
-      border: 1px solid lightgrey;
-      border-radius: 5px;
+    margin: 1px;
+    padding-top: 20px;
+    height: 90px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+
+    .item-row {
+      display: flex;
       justify-content: space-between;
-      padding: 7px;
+      align-content: center;
+      padding: 3px;
     }
     .item-list-title {
       font-size: 30px;
-      margin: 8px;
+      margin: 3px;
+    }
+    .list-item {
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      border-radius: 3px;
     }
   }
+}
+
+.item-adder {
+  border: none;
+  .form-control {
+    width: 90%;
+  }
+}
+
+#item-lists {
+  height: 480px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.center-whole {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-closed {
@@ -70,7 +105,8 @@ html {
   overflow-y: auto;
   padding-top: 20px; /* Place content 60px from the top */
   padding-bottom: 20px;
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  margin-left: 12px;
+  transition: 0.3s; /* 0.5 second transition effect to slide in the sidenav */
   .list-item {
     font-size: 24px;
   }

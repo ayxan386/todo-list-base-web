@@ -1,4 +1,37 @@
 function listHolderLoaded() {
+  checkForToken();
+  addListenerToForm();
+  loadAllLists();
+}
+
+function checkForToken() {
+  if (window.localStorage.getItem("token") === null) {
+    window.location.replace("login.html");
+  }
+}
+
+function loadAllLists() {
+  const prevLists = JSON.parse(window.localStorage.getItem("lists"));
+  if (prevLists !== null) {
+    prevLists.forEach((list) => addToLists(list));
+  }
+  const token = window.localStorage.getItem("token");
+  const authHeader = `Bearer ${token}`;
+  const url = `${getGlobals().baseUrl}/item-list/mine`;
+  $.ajax({
+    url,
+    method: "GET",
+    beforeSend: (xhr) => xhr.setRequestHeader("Authorization", authHeader),
+  }).done((res) => {
+    const lists = res.data;
+    window.localStorage.setItem("lists", JSON.stringify(lists));
+    lists
+      .filter((list) => prevLists.filter((l) => l.id === list.id).length === 0)
+      .forEach((list) => addToLists(list));
+  });
+}
+
+function addListenerToForm() {
   $("#list-maker").on("submit", (event) => {
     event.preventDefault();
     const data = $("#list-name-input").val();
@@ -17,14 +50,15 @@ function listHolderLoaded() {
 }
 
 function addToLists(listData) {
-  const newItemList = formItemList(listData.name, listData.id);
+  const newItemList = formItemList(listData);
   $("#item-lists").append(newItemList);
 }
 
-function formItemList(name, id) {
+function formItemList(listData) {
+  const { name, id, items } = listData;
   const str = `
 <div class="item-list" id="item-list-${id}">
-          <div class="row">
+          <div class="item-row">
             <h3 class="item-list-title">${name}</h3>
             <div>
               <span class="btn-open" id="btn-open-${id}">
@@ -40,11 +74,20 @@ function formItemList(name, id) {
             </div>
           </div>
           <div id="list-${id}" class="sidenav">
-            <div
-              class="list-item list-group-item d-flex justify-content-between align-items-center"
-            >
-              Hello there
-            </div>
+          ${addItems(items)}
+            <form id="item-adder-${id}" class="item-adder">
+                <div class="item-row">
+                  <input
+                    name="item-name-${id}"
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter new item"
+                  />
+                  <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </form>
           </div>
         </div>
 `;
@@ -52,9 +95,9 @@ function formItemList(name, id) {
 }
 
 function openNav(id) {
-  console.log(id);
-  document.getElementById(`list-${id}`).style.width = "100%";
+  document.getElementById(`list-${id}`).style.width = "97%";
   document.getElementById(`list-${id}`).style.height = "100%";
+  document.getElementById(`item-list-${id}`).style.height = "420px";
   document.getElementById(`btn-open-${id}`).style.display = "none";
   document.getElementById(`btn-closed-${id}`).style.display = "inline-block";
 }
@@ -62,6 +105,22 @@ function openNav(id) {
 function closeNav(id) {
   document.getElementById(`list-${id}`).style.width = "0";
   document.getElementById(`list-${id}`).style.height = "0";
+  document.getElementById(`item-list-${id}`).style.height = "90px";
   document.getElementById(`btn-open-${id}`).style.display = "inline-block";
   document.getElementById(`btn-closed-${id}`).style.display = "none";
+}
+
+function addItems(items) {
+  let str = "";
+  if (items.length > 0) {
+    items.forEach((item) => {
+      str += `  <div
+              class="list-item list-group-item d-flex justify-content-between align-items-center">
+              ${item.title}
+            </div>`;
+    });
+  } else {
+    str = "List is empty";
+  }
+  return str;
 }
