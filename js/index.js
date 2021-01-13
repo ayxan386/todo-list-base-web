@@ -76,6 +76,11 @@ function formItemList(listData) {
                   <i class="fas fa-chevron-up"></i>
                 </button>
               </span>
+              <span id="btn-delete-${id}" class="btn-delete-list">
+                <button onclick="deleteList('${id}')" class="btn btn-delete">
+                  <i class="fas fa-times"></i>
+                </button>
+              </span>
             </div>
           </div>
           <div id="list-${id}" class="sidenav">
@@ -189,4 +194,25 @@ function removeItemFromList(itemId, itemListId) {
   if (!par.html().includes("div")) {
     par.html("List is empty");
   }
+}
+
+function deleteList(listId) {
+  const url = `${getGlobals().baseUrl}/item-list/list?id=${listId}`;
+  const token = window.localStorage.getItem("token");
+
+  fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.data === "deleted") removeList(listId);
+    });
+}
+
+function removeList(listId) {
+  $(`#item-list-${listId}:first`).remove();
 }
