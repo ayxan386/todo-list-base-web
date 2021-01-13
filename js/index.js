@@ -79,7 +79,7 @@ function formItemList(listData) {
             </div>
           </div>
           <div id="list-${id}" class="sidenav">
-            <div id="items-list-${id}">
+            <div id="items-list-${id}" class="items-list">
                ${addItems(items)}
             </div>
             <form id="item-adder-${id}" class="item-adder" onsubmit="postItem()">
