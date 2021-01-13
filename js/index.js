@@ -52,6 +52,11 @@ function addListenerToForm() {
 function addToLists(listData) {
   const newItemList = formItemList(listData);
   $("#item-lists").append(newItemList);
+  $(`#item-adder-${listData.id}`).on("submit", (e) => {
+    e.preventDefault();
+    const id = e.target.id.substr("item-adder-".length);
+    postItem(id);
+  });
 }
 
 function formItemList(listData) {
@@ -74,11 +79,13 @@ function formItemList(listData) {
             </div>
           </div>
           <div id="list-${id}" class="sidenav">
-          ${addItems(items)}
-            <form id="item-adder-${id}" class="item-adder">
+            <div id="items-list-${id}" class="items-list">
+               ${addItems(items)}
+            </div>
+            <form id="item-adder-${id}" class="item-adder" onsubmit="postItem()">
                 <div class="item-row">
                   <input
-                    name="item-name-${id}"
+                    name="item-title-${id}"
                     type="text"
                     class="form-control"
                     placeholder="Enter new item"
@@ -123,4 +130,35 @@ function addItems(items) {
     str = "List is empty";
   }
   return str;
+}
+
+function addItemToExistingList(item) {
+  const body = $(`#items-list-${item.itemListId}`).html();
+  if (body.includes("div")) {
+    $(`#items-list-${item.itemListId}`).append(addItems([item]));
+  } else {
+    $(`#items-list-${item.itemListId}`).html(addItems([item]));
+  }
+}
+
+function postItem(id) {
+  const title = $(`input[name='item-title-${id}'`).val();
+  const url = `${getGlobals().baseUrl}/item-list/addItem`;
+  const data = {
+    title,
+    itemListId: id,
+  };
+  const token = window.localStorage.getItem("token");
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.message === "success") addItemToExistingList(data.data);
+    });
 }
