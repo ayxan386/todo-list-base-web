@@ -76,6 +76,11 @@ function formItemList(listData) {
                   <i class="fas fa-chevron-up"></i>
                 </button>
               </span>
+              <span id="btn-delete-${id}" class="btn-delete-list">
+                <button onclick="deleteList('${id}')" class="btn btn-delete">
+                  <i class="fas fa-times"></i>
+                </button>
+              </span>
             </div>
           </div>
           <div id="list-${id}" class="sidenav">
@@ -122,8 +127,9 @@ function addItems(items) {
   if (items.length > 0) {
     items.forEach((item) => {
       str += `  <div
-              class="list-item list-group-item d-flex justify-content-between align-items-center">
+              class="list-item list-group-item d-flex justify-content-between align-items-center" id="item-${item.id}">
               ${item.title}
+              <button onclick="deleteItem('${item.id}', '${item.itemListId}')" class="btn"><i class="fas fa-times"></i></button>
             </div>`;
     });
   } else {
@@ -161,4 +167,52 @@ function postItem(id) {
     .then((data) => {
       if (data.message === "success") addItemToExistingList(data.data);
     });
+}
+
+function deleteItem(itemId, itemListId) {
+  const url = `${getGlobals().baseUrl}/item-list/item?id=${itemId}`;
+  const token = window.localStorage.getItem("token");
+
+  fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.data === "deleted") removeItemFromList(itemId, itemListId);
+    });
+}
+
+function removeItemFromList(itemId, itemListId) {
+  console.log("removing");
+  const par = $(`#items-list-${itemListId}`);
+  $(`#items-list-${itemListId}`).children(`#item-${itemId}:first`).remove();
+
+  if (!par.html().includes("div")) {
+    par.html("List is empty");
+  }
+}
+
+function deleteList(listId) {
+  const url = `${getGlobals().baseUrl}/item-list/list?id=${listId}`;
+  const token = window.localStorage.getItem("token");
+
+  fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.data === "deleted") removeList(listId);
+    });
+}
+
+function removeList(listId) {
+  $(`#item-list-${listId}:first`).remove();
 }

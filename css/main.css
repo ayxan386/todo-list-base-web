@@ -90,6 +90,9 @@ html {
   margin-top: 3px;
   margin-bottom: 3px;
   border-radius: 3px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .item-adder {
