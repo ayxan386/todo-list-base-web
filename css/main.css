@@ -149,6 +149,10 @@ html {
   font-size: 24px;
 }
 
+.sidenav .form-control {
+  color: black;
+}
+
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidenav {
