@@ -267,4 +267,8 @@ html {
   font-size: 22px;
   font-weight: 700;
 }
+
+#logout-holder .btn i {
+  margin-left: 4px;
+}
 /*# sourceMappingURL=main.css.map */
