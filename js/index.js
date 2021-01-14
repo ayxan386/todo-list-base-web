@@ -25,9 +25,8 @@ function loadAllLists() {
   }).done((res) => {
     const lists = res.data;
     window.localStorage.setItem("lists", JSON.stringify(lists));
-    lists
-      .filter((list) => prevLists.filter((l) => l.id === list.id).length === 0)
-      .forEach((list) => addToLists(list));
+    $("#item-lists").html("");
+    lists.forEach((list) => addToLists(list));
   });
 }
 
@@ -56,13 +55,14 @@ function addToLists(listData) {
     e.preventDefault();
     const id = e.target.id.substr("item-adder-".length);
     postItem(id);
+    e.target.reset();
   });
 }
 
 function formItemList(listData) {
   const { name, id, items } = listData;
   const str = `
-<div class="item-list" id="item-list-${id}">
+      <div class="item-list" id="item-list-${id}">
           <div class="item-row">
             <h3 class="item-list-title">${name}</h3>
             <div>
@@ -127,7 +127,8 @@ function addItems(items) {
   if (items.length > 0) {
     items.forEach((item) => {
       str += `  <div
-              class="list-item list-group-item d-flex justify-content-between align-items-center" id="item-${item.id}">
+              class="list-item list-group-item d-flex justify-content-between align-items-center" id="item-${item.id}"
+              onclick="openItem('${item.itemListId}', '${item.id}')">
               ${item.title}
               <button onclick="deleteItem('${item.id}', '${item.itemListId}')" class="btn"><i class="fas fa-times"></i></button>
             </div>`;
@@ -144,6 +145,15 @@ function addItemToExistingList(item) {
     $(`#items-list-${item.itemListId}`).append(addItems([item]));
   } else {
     $(`#items-list-${item.itemListId}`).html(addItems([item]));
+  }
+
+  const lists = JSON.parse(window.localStorage.getItem("lists"));
+  for (let i = 0; i < lists.length; i++) {
+    const list = lists[i];
+    if (list.id === item.itemListId) {
+      list.items.push(item);
+      window.localStorage.setItem("lists", JSON.stringify(lists));
+    }
   }
 }
 
@@ -187,7 +197,6 @@ function deleteItem(itemId, itemListId) {
 }
 
 function removeItemFromList(itemId, itemListId) {
-  console.log("removing");
   const par = $(`#items-list-${itemListId}`);
   $(`#items-list-${itemListId}`).children(`#item-${itemId}:first`).remove();
 
@@ -215,4 +224,24 @@ function deleteList(listId) {
 
 function removeList(listId) {
   $(`#item-list-${listId}:first`).remove();
+}
+
+function openItem(itemListId, itemId) {
+  const lists = JSON.parse(window.localStorage.getItem("lists"));
+
+  lists
+    .filter((list) => list.id === itemListId)
+    .flatMap((list) => list.items)
+    .filter((item) => item.id === itemId)
+    .forEach((item) => {
+      $("#pop-up-holder").css("display", "grid");
+      $("#item-desc-title").html(item.title);
+      $("#item-desc-create-date").html(item.createDate);
+      $("#item-desc-update-date").html(item.updateDate);
+      $("#item-desc-desc").html(item.content);
+    });
+}
+
+function closePopUp() {
+  $("#pop-up-holder").css("display", "none");
 }
