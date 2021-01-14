@@ -62,7 +62,7 @@ function addToLists(listData) {
 function formItemList(listData) {
   const { name, id, items } = listData;
   const str = `
-<div class="item-list" id="item-list-${id}">
+      <div class="item-list" id="item-list-${id}">
           <div class="item-row">
             <h3 class="item-list-title">${name}</h3>
             <div>
