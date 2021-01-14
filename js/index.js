@@ -25,9 +25,8 @@ function loadAllLists() {
   }).done((res) => {
     const lists = res.data;
     window.localStorage.setItem("lists", JSON.stringify(lists));
-    lists
-      .filter((list) => prevLists.filter((l) => l.id === list.id).length === 0)
-      .forEach((list) => addToLists(list));
+    $("#item-lists").html("");
+    lists.forEach((list) => addToLists(list));
   });
 }
 
@@ -56,6 +55,7 @@ function addToLists(listData) {
     e.preventDefault();
     const id = e.target.id.substr("item-adder-".length);
     postItem(id);
+    e.target.reset();
   });
 }
 
@@ -150,11 +150,8 @@ function addItemToExistingList(item) {
   const lists = JSON.parse(window.localStorage.getItem("lists"));
   for (let i = 0; i < lists.length; i++) {
     const list = lists[i];
-    console.log(list);
     if (list.id === item.itemListId) {
-      console.log(list);
       list.items.push(item);
-      console.log(list.items);
       window.localStorage.setItem("lists", JSON.stringify(lists));
     }
   }
@@ -200,7 +197,6 @@ function deleteItem(itemId, itemListId) {
 }
 
 function removeItemFromList(itemId, itemListId) {
-  console.log("removing");
   const par = $(`#items-list-${itemListId}`);
   $(`#items-list-${itemListId}`).children(`#item-${itemId}:first`).remove();
 
@@ -238,7 +234,6 @@ function openItem(itemListId, itemId) {
     .flatMap((list) => list.items)
     .filter((item) => item.id === itemId)
     .forEach((item) => {
-      console.log(item);
       $("#pop-up-holder").css("display", "grid");
       $("#item-desc-title").html(item.title);
       $("#item-desc-create-date").html(item.createDate);
