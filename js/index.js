@@ -127,7 +127,8 @@ function addItems(items) {
   if (items.length > 0) {
     items.forEach((item) => {
       str += `  <div
-              class="list-item list-group-item d-flex justify-content-between align-items-center" id="item-${item.id}">
+              class="list-item list-group-item d-flex justify-content-between align-items-center" id="item-${item.id}"
+              onclick="openItem('${item.itemListId}', '${item.id}')">
               ${item.title}
               <button onclick="deleteItem('${item.id}', '${item.itemListId}')" class="btn"><i class="fas fa-times"></i></button>
             </div>`;
@@ -215,4 +216,24 @@ function deleteList(listId) {
 
 function removeList(listId) {
   $(`#item-list-${listId}:first`).remove();
+}
+
+function openItem(itemListId, itemId) {
+  const lists = JSON.parse(window.localStorage.getItem("lists"));
+
+  $("#pop-up-holder").css("display", "grid");
+  lists
+    .filter((list) => list.id === itemListId)
+    .flatMap((list) => list.items)
+    .filter((item) => item.id === itemId)
+    .forEach((item) => {
+      $("#item-desc-title").html(item.title);
+      $("#item-desc-create-date").html(item.createDate);
+      $("#item-desc-update-date").html(item.updateDate);
+      $("#item-desc-desc").html(item.content);
+    });
+}
+
+function closePopUp() {
+  $("#pop-up-holder").css("display", "none");
 }
