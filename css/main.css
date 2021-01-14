@@ -254,4 +254,17 @@ html {
   height: 100%;
   position: absolute;
 }
+
+#logout-holder {
+  position: absolute;
+  right: 15px;
+  top: 25px;
+  width: 20rem;
+  text-align: center;
+}
+
+#logout-holder .btn {
+  font-size: 22px;
+  font-weight: 700;
+}
 /*# sourceMappingURL=main.css.map */
