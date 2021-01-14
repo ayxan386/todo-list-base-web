@@ -23,6 +23,21 @@
         </form>
       </div>
     </div>
+    <div id="pop-up-holder">
+      <div id="item-desc">
+        <h2 id="item-desc-title">Title</h2>
+        <small id="item-desc-create-date"></small>
+        <small id="item-desc-update-date"></small>
+        <textarea id="item-desc-desc" value="no value"></textarea>
+        <button id="item-desc-save" class="btn btn-success">
+          Save changes
+        </button>
+      </div>
+      <div id="pop-up-background" onclick="closePopUp()"></div>
+      <button id="pop-up-closer" class="btn" onclick="closePopUp()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
 
     <script
       src="https://kit.fontawesome.com/e548969ec4.js"
