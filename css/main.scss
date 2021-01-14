@@ -132,3 +132,62 @@ html {
     font-size: 18px;
   }
 }
+
+#pop-up-holder {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: 0.9;
+  display: none;
+  // display: grid;
+  justify-content: center;
+  align-items: center;
+  #item-desc {
+    z-index: 3;
+    display: grid;
+    align-items: center;
+    grid-template-areas: "T T C U" "D D D D" "D D D D" ". . . E";
+    height: 18rem;
+    width: 36rem;
+
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 8px 3px 5px 8px;
+
+    background-color: #eeeeee;
+    opacity: 1;
+    #item-desc-title {
+      grid-area: T;
+    }
+    #item-desc-create-date {
+      grid-area: C;
+    }
+    #item-desc-update-date {
+      grid-area: U;
+    }
+
+    #item-desc-desc {
+      width: 35rem;
+      height: 8rem;
+      grid-area: D;
+    }
+    #item-desc-save {
+      grid-area: E;
+      position: relative;
+      left: -8px;
+    }
+  }
+  #pop-up-closer {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 32px;
+  }
+  #pop-up-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+}
