@@ -146,6 +146,18 @@ function addItemToExistingList(item) {
   } else {
     $(`#items-list-${item.itemListId}`).html(addItems([item]));
   }
+
+  const lists = JSON.parse(window.localStorage.getItem("lists"));
+  for (let i = 0; i < lists.length; i++) {
+    const list = lists[i];
+    console.log(list);
+    if (list.id === item.itemListId) {
+      console.log(list);
+      list.items.push(item);
+      console.log(list.items);
+      window.localStorage.setItem("lists", JSON.stringify(lists));
+    }
+  }
 }
 
 function postItem(id) {
@@ -221,12 +233,13 @@ function removeList(listId) {
 function openItem(itemListId, itemId) {
   const lists = JSON.parse(window.localStorage.getItem("lists"));
 
-  $("#pop-up-holder").css("display", "grid");
   lists
     .filter((list) => list.id === itemListId)
     .flatMap((list) => list.items)
     .filter((item) => item.id === itemId)
     .forEach((item) => {
+      console.log(item);
+      $("#pop-up-holder").css("display", "grid");
       $("#item-desc-title").html(item.title);
       $("#item-desc-create-date").html(item.createDate);
       $("#item-desc-update-date").html(item.updateDate);
