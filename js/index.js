@@ -245,3 +245,8 @@ function openItem(itemListId, itemId) {
 function closePopUp() {
   $("#pop-up-holder").css("display", "none");
 }
+
+function logout() {
+  window.localStorage.clear();
+  window.location.replace("login.html");
+}
