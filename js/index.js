@@ -314,3 +314,8 @@ function itemChecked(itemId, statusBoolean) {
   const status = statusBoolean ? "DONE" : "NEW";
   updateItemDetails(content, status, itemId);
 }
+
+function logout() {
+  window.localStorage.clear();
+  window.location.replace("login.html");
+}

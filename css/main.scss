@@ -202,3 +202,18 @@ html {
     position: absolute;
   }
 }
+
+#logout-holder {
+  position: absolute;
+  right: 15px;
+  top: 25px;
+  width: 20rem;
+  text-align: center;
+  .btn {
+    font-size: 22px;
+    font-weight: 700;
+    i {
+      margin-left: 4px;
+    }
+  }
+}
