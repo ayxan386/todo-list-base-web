@@ -147,12 +147,26 @@ function addItemToExistingList(item) {
     $(`#items-list-${item.itemListId}`).html(addItems([item]));
   }
 
+  addItemToLocalStorage(item);
+}
+
+function addItemToLocalStorage(item) {
   const lists = JSON.parse(window.localStorage.getItem("lists"));
   for (let i = 0; i < lists.length; i++) {
     const list = lists[i];
     if (list.id === item.itemListId) {
-      list.items.push(item);
+      let flag = true;
+      const items = list.items;
+      for (let j = 0; j < items.length; j++) {
+        if (items[j].id === item.id) {
+          items[j] = item;
+          flag = false;
+          break;
+        }
+      }
+      if (flag) list.items.push(item);
       window.localStorage.setItem("lists", JSON.stringify(lists));
+      break;
     }
   }
 }
@@ -236,12 +250,42 @@ function openItem(itemListId, itemId) {
     .forEach((item) => {
       $("#pop-up-holder").css("display", "grid");
       $("#item-desc-title").html(item.title);
+      $("#item-desc").attr("item-id", itemId);
+      $("#item-desc").attr("list-id", itemListId);
       $("#item-desc-create-date").html(item.createDate);
       $("#item-desc-update-date").html(item.updateDate);
-      $("#item-desc-desc").html(item.content);
+      $("#item-desc-desc").val(item.content);
     });
 }
 
 function closePopUp() {
   $("#pop-up-holder").css("display", "none");
+  $("#item-desc").attr("item-id", "");
+  $("#item-desc").attr("list-id", "");
+}
+
+function updateItemDetails() {
+  const content = $("#item-desc-desc").val();
+  const url = `${getGlobals().baseUrl}/item-list/update-item`;
+  const itemId = $("#item-desc").attr("item-id");
+  const data = {
+    id: itemId,
+    content,
+  };
+  const token = window.localStorage.getItem("token");
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.message === "success") {
+        addItemToLocalStorage(data.data);
+        closePopUp();
+      }
+    });
 }
