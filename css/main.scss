@@ -121,6 +121,17 @@ html {
     overflow-y: scroll;
     margin-bottom: 5px;
   }
+  .item-status {
+    // width: 1.5rem;
+    // height: 1.5rem;
+    // font-size: 1.5rem;
+
+    margin-right: 7px;
+    position: relative;
+    top: 5px;
+    border-radius: 0;
+    background-color: white;
+  }
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

@@ -14,6 +14,7 @@ function loadAllLists() {
   const prevLists = JSON.parse(window.localStorage.getItem("lists"));
   if (prevLists !== null) {
     prevLists.forEach((list) => addToLists(list));
+    addCheckBoxListener();
   }
   const token = window.localStorage.getItem("token");
   const authHeader = `Bearer ${token}`;
@@ -27,6 +28,7 @@ function loadAllLists() {
     window.localStorage.setItem("lists", JSON.stringify(lists));
     $("#item-lists").html("");
     lists.forEach((list) => addToLists(list));
+    addCheckBoxListener();
   });
 }
 
@@ -129,7 +131,10 @@ function addItems(items) {
       str += `  <div
               class="list-item list-group-item d-flex justify-content-between align-items-center" id="item-${item.id}"
               onclick="openItem('${item.itemListId}', '${item.id}')">
-              ${item.title}
+              <span>
+              <input type='checkbox' class='item-status' id="item-status-${item.id}" itemContent="${item.content}"/>
+                 ${item.title}
+              </span>
               <button onclick="deleteItem('${item.id}', '${item.itemListId}')" class="btn"><i class="fas fa-times"></i></button>
             </div>`;
     });
@@ -147,12 +152,26 @@ function addItemToExistingList(item) {
     $(`#items-list-${item.itemListId}`).html(addItems([item]));
   }
 
+  addItemToLocalStorage(item);
+}
+
+function addItemToLocalStorage(item) {
   const lists = JSON.parse(window.localStorage.getItem("lists"));
   for (let i = 0; i < lists.length; i++) {
     const list = lists[i];
     if (list.id === item.itemListId) {
-      list.items.push(item);
+      let flag = true;
+      const items = list.items;
+      for (let j = 0; j < items.length; j++) {
+        if (items[j].id === item.id) {
+          items[j] = item;
+          flag = false;
+          break;
+        }
+      }
+      if (flag) list.items.push(item);
       window.localStorage.setItem("lists", JSON.stringify(lists));
+      break;
     }
   }
 }
@@ -236,14 +255,64 @@ function openItem(itemListId, itemId) {
     .forEach((item) => {
       $("#pop-up-holder").css("display", "grid");
       $("#item-desc-title").html(item.title);
+      $("#item-desc").attr("item-id", itemId);
+      $("#item-desc").attr("list-id", itemListId);
       $("#item-desc-create-date").html(item.createDate);
       $("#item-desc-update-date").html(item.updateDate);
-      $("#item-desc-desc").html(item.content);
+      $("#item-desc-desc").val(item.content);
     });
 }
 
 function closePopUp() {
   $("#pop-up-holder").css("display", "none");
+  $("#item-desc").attr("item-id", "");
+  $("#item-desc").attr("list-id", "");
+}
+
+function updateItemDetails(content, status, itemId) {
+  const url = `${getGlobals().baseUrl}/item-list/update-item`;
+  const data = {
+    id: itemId,
+    content,
+    status,
+  };
+  const token = window.localStorage.getItem("token");
+  return fetch(url, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.message === "success") {
+        addItemToLocalStorage(data.data);
+      }
+    });
+}
+
+function updateContentFromPopUp() {
+  const content = $("#item-desc-desc").val();
+  const itemId = $("#item-desc").attr("item-id");
+  const checkboxStatte = $(`#item-status-${itemId}`).attr("checked");
+  const status = checkboxStatte ? "DONE" : "NEW";
+  updateItemDetails(content, status, itemId).then((e) => closePopUp());
+}
+
+function addCheckBoxListener() {
+  $(".item-status").click((event) => {
+    event.stopPropagation();
+    const itemId = event.target.id.substr("item-status-".length);
+    itemChecked(itemId, event.target.checked);
+  });
+}
+
+function itemChecked(itemId, statusBoolean) {
+  const content = $(`#item-status-${itemId}`).attr("itemContent");
+  const status = statusBoolean ? "DONE" : "NEW";
+  updateItemDetails(content, status, itemId);
 }
 
 function logout() {
