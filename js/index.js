@@ -14,6 +14,7 @@ function loadAllLists() {
   const prevLists = JSON.parse(window.localStorage.getItem("lists"));
   if (prevLists !== null) {
     prevLists.forEach((list) => addToLists(list));
+    addCheckBoxListener();
   }
   const token = window.localStorage.getItem("token");
   const authHeader = `Bearer ${token}`;
@@ -27,6 +28,7 @@ function loadAllLists() {
     window.localStorage.setItem("lists", JSON.stringify(lists));
     $("#item-lists").html("");
     lists.forEach((list) => addToLists(list));
+    addCheckBoxListener();
   });
 }
 
@@ -129,7 +131,10 @@ function addItems(items) {
       str += `  <div
               class="list-item list-group-item d-flex justify-content-between align-items-center" id="item-${item.id}"
               onclick="openItem('${item.itemListId}', '${item.id}')">
-              ${item.title}
+              <span>
+              <input type='checkbox' class='item-status' id="item-status-${item.id}" itemContent="${item.content}"/>
+                 ${item.title}
+              </span>
               <button onclick="deleteItem('${item.id}', '${item.itemListId}')" class="btn"><i class="fas fa-times"></i></button>
             </div>`;
     });
@@ -264,16 +269,15 @@ function closePopUp() {
   $("#item-desc").attr("list-id", "");
 }
 
-function updateItemDetails() {
-  const content = $("#item-desc-desc").val();
+function updateItemDetails(content, status, itemId) {
   const url = `${getGlobals().baseUrl}/item-list/update-item`;
-  const itemId = $("#item-desc").attr("item-id");
   const data = {
     id: itemId,
     content,
+    status,
   };
   const token = window.localStorage.getItem("token");
-  fetch(url, {
+  return fetch(url, {
     method: "PUT",
     body: JSON.stringify(data),
     headers: {
@@ -285,7 +289,28 @@ function updateItemDetails() {
     .then((data) => {
       if (data.message === "success") {
         addItemToLocalStorage(data.data);
-        closePopUp();
       }
     });
+}
+
+function updateContentFromPopUp() {
+  const content = $("#item-desc-desc").val();
+  const itemId = $("#item-desc").attr("item-id");
+  const checkboxStatte = $(`#item-status-${itemId}`).attr("checked");
+  const status = checkboxStatte ? "DONE" : "NEW";
+  updateItemDetails(content, status, itemId).then((e) => closePopUp());
+}
+
+function addCheckBoxListener() {
+  $(".item-status").click((event) => {
+    event.stopPropagation();
+    const itemId = event.target.id.substr("item-status-".length);
+    itemChecked(itemId, event.target.checked);
+  });
+}
+
+function itemChecked(itemId, statusBoolean) {
+  const content = $(`#item-status-${itemId}`).attr("itemContent");
+  const status = statusBoolean ? "DONE" : "NEW";
+  updateItemDetails(content, status, itemId);
 }
